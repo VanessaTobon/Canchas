@@ -130,10 +130,10 @@ Contraseña: lopera12345
 
 ### Para Administradores
 
-| Función | Descripción | Archivo |
-|---------|-------------|---------|
-| **Gestionar Canchas** | CRUD completo para administrar todas las canchas | `admin/gestionar_canchas.php` |![Gestión de Canchas](./asset/img/gestionarcanchas.png)
-| **Gestionar Reservas** | Administrar y supervisar todas las reservas del sistema | `admin/gestionar_reservas.php` |![Gestión de Reservas](./asset/img/gestionarreservas.png)
+| Función | Descripción | Archivo | Imagen |
+|---------|-------------|---------|--------|
+| **Gestionar Canchas** | CRUD completo para administrar todas las canchas | `admin/gestionar_canchas.php` |![Gestión de Canchas](./assets/img/gestionarcanchas.png)
+| **Gestionar Reservas** | Administrar y supervisar todas las reservas del sistema | `admin/gestionar_reservas.php` |![Gestión de Reservas](./assets/img/gestionarreservas.png)
 | **Confirmar/Completar** | Cambiar estados de reservas y gestionar su ciclo de vida | `admin/gestionar_reservas.php` |
 
 ### Estados de Reservas
