@@ -122,19 +122,18 @@ Contraseña: lopera12345
 
 | Función | Descripción | Archivo | Imagen |
 |---------|-------------|---------|---------|
-| **Registro/Login** | Crear cuenta nueva o iniciar sesión en el sistema | `public/registro.php` | ![Pantalla Login](./asset/img/login.jpeg)
-| **Ver Canchas** | Explorar listado completo de canchas disponibles | `public/canchas.php` |
-| **Realizar Reservas** | Reservar canchas con selección de fecha y horario | `public/reservar.php` |
-| **Mis Reservas** | Gestionar y visualizar todas las reservas propias | `cliente/mis_reservas.php` |![Pantalla de reservas](./asset/img/misreservas.png)
-| **Cancelar Reservas** | Cancelar reservas existentes con motivo específico | `cliente/mis_reservas.php` |
+| **Login** | Iniciar sesión en el sistema | `public/login.php` | ![Pantalla Login](./assets/img/login.jpeg) 
+| **Registro** | Crear una cuenta nueva |  `public/registro.php` | ![Registro Usuario](./assets/img/registrodeusuario.jpeg)
+| **Realizar Reservas** | Reservar canchas con selección de fecha y horario | `public/reservar.php` | ![Realizar Reserva](./assets/img/realizarreserva.png)
+| **Mis Reservas** | Gestionar y visualizar todas las reservas propias | `cliente/mis_reservas.php` |![Pantalla de reservas](./assets/img/misreservas.png)
+| **Cancelar Reservas** | Cancelar reservas existentes con motivo específico | `cliente/mis_reservas.php` | ![Mis Reservas](./assets/img/misreservas.png)
 
 ### Para Administradores
 
 | Función | Descripción | Archivo |
 |---------|-------------|---------|
-| **Dashboard** | Vista general del sistema con estadísticas y métricas | `admin/dashboard.php` |
-| **Gestionar Canchas** | CRUD completo para administrar todas las canchas | `admin/gestionar_canchas.php` |
-| **Gestionar Reservas** | Administrar y supervisar todas las reservas del sistema | `admin/gestionar_reservas.php` |
+| **Gestionar Canchas** | CRUD completo para administrar todas las canchas | `admin/gestionar_canchas.php` |![Gestión de Canchas](./asset/img/gestionarcanchas.png)
+| **Gestionar Reservas** | Administrar y supervisar todas las reservas del sistema | `admin/gestionar_reservas.php` |![Gestión de Reservas](./asset/img/gestionarreservas.png)
 | **Confirmar/Completar** | Cambiar estados de reservas y gestionar su ciclo de vida | `admin/gestionar_reservas.php` |
 
 ### Estados de Reservas
