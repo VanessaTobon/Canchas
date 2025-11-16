@@ -1,0 +1,143 @@
+CREATE DATABASE IF NOT EXISTS reserva_canchas;
+USE reserva_canchas;
+
+-- Tabla de usuarios
+CREATE TABLE IF NOT EXISTS tbl_usuarios (
+  id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(50) NOT NULL,
+  email VARCHAR(50) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  telefono VARCHAR(20) NULL,
+  direccion VARCHAR(100) NULL,
+  fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  rol ENUM('admin','cliente') NOT NULL DEFAULT 'cliente'
+);
+
+-- Tabla de países
+CREATE TABLE IF NOT EXISTS tbl_pais (
+  id_pais INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  nombre_pais VARCHAR(60) NOT NULL
+);
+
+-- Insertar un país (si lo deseas, para comenzar)
+INSERT INTO tbl_pais (nombre_pais) VALUES ('Colombia');
+
+-- Tabla de estados/departamentos
+CREATE TABLE IF NOT EXISTS tbl_estado (
+  id_estado INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  nombre_estado VARCHAR(50) NOT NULL,
+  id_pais INT NOT NULL,
+  CONSTRAINT fk_estado_pais
+    FOREIGN KEY (id_pais)
+    REFERENCES tbl_pais(id_pais)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
+
+-- Tabla de municipios/ciudades
+CREATE TABLE IF NOT EXISTS tbl_municipio (
+  id_municipio INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  nombre_municipio VARCHAR(50) NOT NULL,
+  id_estado INT NOT NULL,
+  id_pais INT NOT NULL,
+  CONSTRAINT fk_municipio_estado
+    FOREIGN KEY (id_estado)
+    REFERENCES tbl_estado(id_estado)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT fk_municipio_pais
+    FOREIGN KEY (id_pais)
+    REFERENCES tbl_pais(id_pais)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
+
+-- Tabla de canchas
+CREATE TABLE IF NOT EXISTS tbl_canchas (
+  id_cancha INT AUTO_INCREMENT PRIMARY KEY,
+  nombre_cancha VARCHAR(50) NOT NULL,
+  tipo_cancha VARCHAR(50) NOT NULL,
+  estado ENUM('disponible', 'mantenimiento', 'ocupada') NOT NULL DEFAULT 'disponible',
+  id_municipio INT NOT NULL,
+  id_estado INT NOT NULL,
+  id_pais INT NOT NULL,
+  direccion VARCHAR(100) NOT NULL,
+  capacidad INT NOT NULL DEFAULT 10,
+  precio DECIMAL(10,2) NOT NULL,
+  CONSTRAINT fk_cancha_municipio FOREIGN KEY (id_municipio) 
+    REFERENCES tbl_municipio(id_municipio) 
+    ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT fk_cancha_estado FOREIGN KEY (id_estado) 
+    REFERENCES tbl_estado(id_estado) 
+    ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT fk_cancha_pais FOREIGN KEY (id_pais) 
+    REFERENCES tbl_pais(id_pais) 
+    ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- Tabla de horarios de disponibilidad de canchas
+CREATE TABLE IF NOT EXISTS tbl_horarios (
+  id_horario INT AUTO_INCREMENT PRIMARY KEY,
+  id_cancha INT NOT NULL,
+  fecha_disponibilidad DATE NOT NULL,
+  dia ENUM('lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo') NOT NULL,
+  hora_apertura TIME NOT NULL,
+  hora_cierre TIME NOT NULL,
+  CONSTRAINT fk_horario_cancha FOREIGN KEY (id_cancha) 
+    REFERENCES tbl_canchas(id_cancha) 
+    ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- Tabla de reservas
+CREATE TABLE IF NOT EXISTS tbl_reservas (
+  id_reserva INT AUTO_INCREMENT PRIMARY KEY,
+  id_cancha INT NOT NULL,
+  id_usuario INT NOT NULL,
+  fecha_reserva DATE NOT NULL,
+  hora_inicio TIME NOT NULL,
+  hora_fin TIME NOT NULL,
+  motivo_cancelacion TEXT NULL,
+  estado ENUM('pendiente', 'confirmada', 'cancelada', 'completada') NOT NULL DEFAULT 'pendiente',
+  CONSTRAINT fk_reserva_cancha FOREIGN KEY (id_cancha) 
+    REFERENCES tbl_canchas(id_cancha) 
+    ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT fk_reserva_usuario FOREIGN KEY (id_usuario) 
+    REFERENCES tbl_usuarios(id_usuario) 
+    ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- Tabla de pagos
+CREATE TABLE IF NOT EXISTS tbl_pagos (
+  id_pago INT AUTO_INCREMENT PRIMARY KEY,
+  id_reserva INT NOT NULL,
+  monto DECIMAL(10,2) NOT NULL,
+  metodo_pago ENUM('efectivo', 'tarjeta', 'transferencia') NOT NULL,
+  fecha_pago TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_pago_reserva FOREIGN KEY (id_reserva) 
+    REFERENCES tbl_reservas(id_reserva) 
+    ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- Tabla de imágenes de canchas
+CREATE TABLE IF NOT EXISTS tbl_imagenes_canchas (
+    id_imagen INT AUTO_INCREMENT PRIMARY KEY,
+    id_cancha INT NOT NULL,
+    url_imagen VARCHAR(255) NOT NULL,
+    CONSTRAINT fk_imagen_cancha FOREIGN KEY (id_cancha)
+        REFERENCES tbl_canchas(id_cancha)
+        ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- Tabla de historial de cambios en reservas
+CREATE TABLE IF NOT EXISTS tbl_historial_reservas (
+  id_historial INT AUTO_INCREMENT PRIMARY KEY,
+  id_reserva INT NOT NULL,
+  estado_anterior ENUM('pendiente', 'confirmada', 'cancelada', 'completada') NOT NULL,
+  estado_nuevo ENUM('pendiente', 'confirmada', 'cancelada', 'completada') NOT NULL,
+  fecha_cambio TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_historial_reserva FOREIGN KEY (id_reserva)
+    REFERENCES tbl_reservas(id_reserva)
+    ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+ALTER TABLE tbl_usuarios DROP COLUMN clave_admin;
