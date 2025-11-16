@@ -85,23 +85,16 @@ Todos implementan la interfaz UbicacionComponent, permitiendo consultas y recorr
 
 /xampp/htdocs/Canchas/
 
-sql
-Copiar código
-
 3. Crear la base de datos:
 
 ```sql
 CREATE DATABASE reserva_canchas;
 Importar:
+creation.txt
 
-pgsql
-Copiar código
-reserva_canchas.sql
 Configurar la conexión en:
-
-arduino
-Copiar código
 config/config.php
+
 Ejemplo:
 
 php
@@ -111,9 +104,8 @@ Iniciar Apache y MySQL desde XAMPP.
 
 Abrir en el navegador:
 
-bash
-Copiar código
 http://localhost/Canchas/public
+
 Credenciales de Prueba
 Administrador
 Correo: pepe@gmail.com
@@ -122,31 +114,38 @@ Contraseña: pepe12345
 Cliente
 Correo: lopera@gmail.com
 Contraseña: lopera12345
+```
 
+## Funcionalidades
 
-Capturas del Sistema
-Para mostrar imágenes en GitHub, guardarlas en la carpeta /screenshots/ y referenciarlas así:
+### Para Usuarios Registrados
 
-scss
-Copiar código
-![Login](./screenshots/login.jpg)
-![Registro](./screenshots/registro.jpg)
-![Gestión de Canchas](./screenshots/canchas.jpg)
-![Reservas](./screenshots/reservas.jpg)
-Asegúrate de que los nombres coincidan exactamente con los archivos.
+| Función | Descripción | Archivo |
+|---------|-------------|---------|
+| **Registro/Login** | Crear cuenta nueva o iniciar sesión en el sistema | `public/registro.php` |
+| **Ver Canchas** | Explorar listado completo de canchas disponibles | `public/canchas.php` |
+| **Realizar Reservas** | Reservar canchas con selección de fecha y horario | `public/reservar.php` |
+| **Mis Reservas** | Gestionar y visualizar todas las reservas propias | `cliente/mis_reservas.php` |
+| **Cancelar Reservas** | Cancelar reservas existentes con motivo específico | `cliente/mis_reservas.php` |
 
-Estructura del Proyecto
-arduino
-Copiar código
-Canchas/
-│── config/
-│── controllers/
-│── models/
-│── public/
-│── services/
-│── assets/
-│── README.md
-│── reserva_canchas.sql
-Licencia
+### Para Administradores
+
+| Función | Descripción | Archivo |
+|---------|-------------|---------|
+| **Dashboard** | Vista general del sistema con estadísticas y métricas | `admin/dashboard.php` |
+| **Gestionar Canchas** | CRUD completo para administrar todas las canchas | `admin/gestionar_canchas.php` |
+| **Gestionar Reservas** | Administrar y supervisar todas las reservas del sistema | `admin/gestionar_reservas.php` |
+| **Confirmar/Completar** | Cambiar estados de reservas y gestionar su ciclo de vida | `admin/gestionar_reservas.php` |
+
+### Estados de Reservas
+
+| Estado | Descripción |
+|--------|-------------|
+| **Pendiente** | Reserva creada, esperando confirmación del administrador |
+| **Confirmada** | Reserva aprobada y confirmada por el administrador |
+| **Completada** | Reserva utilizada exitosamente y marcada como finalizada |
+| **Cancelada** | Reserva cancelada (requiere motivo de cancelación) |
+
+### Licencia
 Este proyecto se entrega únicamente con fines académicos.
 
