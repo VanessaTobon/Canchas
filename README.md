@@ -120,9 +120,9 @@ Contraseña: lopera12345
 
 ### Para Usuarios Registrados
 
-| Función | Descripción | Archivo |
-|---------|-------------|---------|
-| **Registro/Login** | Crear cuenta nueva o iniciar sesión en el sistema | `public/registro.php` |
+| Función | Descripción | Archivo | Imagen |
+|---------|-------------|---------|---------|
+| **Registro/Login** | Crear cuenta nueva o iniciar sesión en el sistema | `public/registro.php` | asset/img
 | **Ver Canchas** | Explorar listado completo de canchas disponibles | `public/canchas.php` |
 | **Realizar Reservas** | Reservar canchas con selección de fecha y horario | `public/reservar.php` |
 | **Mis Reservas** | Gestionar y visualizar todas las reservas propias | `cliente/mis_reservas.php` |
