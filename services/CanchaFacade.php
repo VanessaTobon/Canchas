@@ -122,7 +122,7 @@ class CanchaFacade {
 
     private function compositeToArray(UbicacionComposite $root): array {
         $out = [];
-        foreach ($root->getCanchas() as $ignored) { /* not used here */ }
+        foreach ($root->getCanchas() as $ignored) { /* No se usa */ }
         $rows = $this->canchaModel->getAllWithLocation();
         $grouped = [];
         foreach ($rows as $r) {
