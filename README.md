@@ -130,10 +130,10 @@ Contraseña: lopera12345
 
 ### Para Administradores
 
-| Función | Descripción | Archivo |
-|---------|-------------|---------|
-| **Gestionar Canchas** | CRUD completo para administrar todas las canchas | `admin/gestionar_canchas.php` |![Gestión de Canchas](./asset/img/gestionarcanchas.png)
-| **Gestionar Reservas** | Administrar y supervisar todas las reservas del sistema | `admin/gestionar_reservas.php` |![Gestión de Reservas](./asset/img/gestionarreservas.png)
+| Función | Descripción | Archivo | Imagen |
+|---------|-------------|---------|--------|
+| **Gestionar Canchas** | CRUD completo para administrar todas las canchas | `admin/gestionar_canchas.php` |![Gestión de Canchas](./assets/img/gestionarcanchas.png)
+| **Gestionar Reservas** | Administrar y supervisar todas las reservas del sistema | `admin/gestionar_reservas.php` |![Gestión de Reservas](./assets/img/gestionarreservas.png)
 | **Confirmar/Completar** | Cambiar estados de reservas y gestionar su ciclo de vida | `admin/gestionar_reservas.php` |
 
 ### Estados de Reservas
@@ -145,6 +145,21 @@ Contraseña: lopera12345
 | **Completada** | Reserva utilizada exitosamente y marcada como finalizada |
 | **Cancelada** | Reserva cancelada (requiere motivo de cancelación) |
 
+### Decisiones arquitectónicas criticas
+- Separar la lógica del sistema en MVC, evitando mezclar PHP con SQL o HTML.
+- Agregar una capa de servicios para evitar controladores excesivamente grandes.
+- Uso de patrones estructurales para garantizar extensibilidad futura.
+- Permitir cancelaciones con motivo, manteniendo historial confiable.
+- Interfaz limpia y uniforme, centrada en la usabilidad.
+- Validación estricta de disponibilidad para evitar reservas duplicadas.
+  
+### Retos técnicos y de aprendizaje
+- Manejo de multiples capas MVC.
+- Incluir los patrones de diseño a un proyecto ya existente.
+- Uso real de patrones en un proyecto funcional, no solo teórico.
+- Manejo de sesiones y roles.
+- Validación de traslape de horarios.
+  
 ### Licencia
 Este proyecto se entrega únicamente con fines académicos.
 
