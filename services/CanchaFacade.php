@@ -123,10 +123,7 @@ class CanchaFacade {
     private function compositeToArray(UbicacionComposite $root): array {
         $out = [];
         foreach ($root->getCanchas() as $ignored) { /* not used here */ }
-        // Instead iterate via children — but UbicacionComposite doesn't expose children; we'll reconstruct:
-        // Simpler: call getAllWithLocation() and return the grouped $paisMap (fast)
         $rows = $this->canchaModel->getAllWithLocation();
-        // build grouped array same as above
         $grouped = [];
         foreach ($rows as $r) {
             $pais = $r['nombre_pais'] ?? 'Sin país';
