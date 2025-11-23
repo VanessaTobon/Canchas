@@ -114,6 +114,8 @@ Contraseña: pepe12345
 Cliente
 Correo: lopera@gmail.com
 Contraseña: lopera12345
+
+Sin embargo pueden crear el administrador y cliente que deseen al clonar y abrir el proyecto
 ```
 
 ## Funcionalidades
