@@ -1,10 +1,13 @@
 <?php
 require_once '../config/config.php';
-require_once '../models/usuarioModel.php';
+require_once '../models/UsuarioModel.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
+// Crear instancia del modelo UNA sola vez
+$usuarioModel = new UsuarioModel();
 
 /**
  * Registrar nuevo usuario.
@@ -12,37 +15,36 @@ if (session_status() === PHP_SESSION_NONE) {
  * @param string $nombre
  * @param string $email
  * @param string $password
- * @param string $rol ('admin' | 'usuario')
+ * @param string $rol
  * @param string $telefono
  * @param string $direccion
  * @return bool
  */
 function registrarUsuario($nombre, $email, $password, $rol, $telefono, $direccion)
 {
-    global $conexion;
+    global $usuarioModel;  // <-- Usamos el modelo, no funciones globales
 
     // Verificar si el correo ya existe
-    if (existeEmail($conexion, $email)) {
+    if ($usuarioModel->existeEmail($email)) {
         return false;
     }
 
+    // Encriptar contraseña
     $hash = password_hash($password, PASSWORD_DEFAULT);
 
-    $query = "INSERT INTO tbl_usuarios (nombre, email, password, rol, telefono, direccion)
-              VALUES (?, ?, ?, ?, ?, ?)";
-    $stmt = $conexion->prepare($query);
-
-    if (!$stmt) {
-        error_log("Error al preparar la consulta: " . $conexion->error);
-        return false;
-    }
-
-    $stmt->bind_param("ssssss", $nombre, $email, $hash, $rol, $telefono, $direccion);
-    return $stmt->execute();
+    // Crear usuario
+    return $usuarioModel->crearUsuario([
+        'nombre'    => $nombre,
+        'email'     => $email,
+        'password'  => $hash,
+        'telefono'  => $telefono,
+        'direccion' => $direccion,
+        'rol'       => $rol
+    ]);
 }
 
 /**
- * Iniciar sesión de usuario.
+ * Iniciar sesión.
  *
  * @param string $email
  * @param string $password
@@ -50,32 +52,32 @@ function registrarUsuario($nombre, $email, $password, $rol, $telefono, $direccio
  */
 function iniciarSesion($email, $password)
 {
-    global $conexion;
+    global $usuarioModel;
 
-    $query = "SELECT id_usuario, nombre, password, rol FROM tbl_usuarios WHERE email = ?";
-    $stmt = $conexion->prepare($query);
-    if (!$stmt) return false;
+    // Buscar usuario por email
+    $usuario = $usuarioModel->obtenerUsuarioPorEmail($email);
 
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($row = $result->fetch_assoc()) {
-        if (password_verify($password, $row['password'])) {
-            $_SESSION['usuario'] = [
-                'id_usuario' => $row['id_usuario'],
-                'nombre'     => $row['nombre'],
-                'rol'        => $row['rol']
-            ];
-            return true;
-        }
+    if (!$usuario) {
+        return false;
     }
 
-    return false;
+    // Verificar contraseña
+    if (!password_verify($password, $usuario['password'])) {
+        return false;
+    }
+
+    // Guardar datos en sesión
+    $_SESSION['usuario'] = [
+        'id_usuario' => $usuario['id_usuario'],
+        'nombre'     => $usuario['nombre'],
+        'rol'        => $usuario['rol']
+    ];
+
+    return true;
 }
 
 /**
- * Cerrar sesión del usuario.
+ * Cerrar sesión.
  *
  * @return array
  */
@@ -84,7 +86,9 @@ function cerrarSesion()
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
+
     session_unset();
     session_destroy();
+
     return ["success" => "Sesión cerrada correctamente."];
 }
