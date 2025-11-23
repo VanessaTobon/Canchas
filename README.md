@@ -107,11 +107,11 @@ Abrir en el navegador:
 http://localhost/Canchas/public
 
 Credenciales de Prueba
-Administrador
+Cliente
 Correo: pepe@gmail.com
 Contraseña: pepe12345
 
-Cliente
+Administrador
 Correo: lopera@gmail.com
 Contraseña: lopera12345
 
