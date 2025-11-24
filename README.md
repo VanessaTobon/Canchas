@@ -165,3 +165,5 @@ Sin embargo pueden crear el administrador y cliente que deseen al clonar y abrir
 ### Licencia
 Este proyecto se entrega únicamente con fines académicos.
 
+### Video de explicación
+https://drive.google.com/drive/folders/1MZapJDWt8QZMDd2BBgt6ykaJdI5W2R5I?usp=sharing
